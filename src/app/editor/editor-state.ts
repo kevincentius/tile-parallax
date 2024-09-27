@@ -10,7 +10,7 @@ export enum TpFileType {
 interface ITpFile {
   type: TpFileType;
   path: string;
-  original: File;
+  original?: File;
 }
 
 export interface TpImageFile extends ITpFile {
@@ -31,5 +31,6 @@ export type TpFile = TpImageFile | TpTilesetFile | TpParallaxFile;
 
 export interface EditorState {
   files: TpFile[];
+  imgFiles: TpImageFile[]; // files but filtered to only images
   selectedFile?: TpFile;
 }

@@ -1,1 +1,28 @@
-<p>tile-set-editor works!</p>
+
+<div class="v-box">
+  <div>
+    <select
+      [ngModel]="selectedImageFile"
+      (ngModelChange)="onImageSelect($event)"
+    >
+      <option *ngFor="let file of files" [ngValue]="file">
+        {{file.path}}
+      </option>
+    </select>
+  </div>
+
+  <div>
+    <app-tile-picker
+      #tilePicker
+      [config]="tilesetConfig"
+    ></app-tile-picker>
+  </div>
+
+  <div>
+    <app-tile-map
+      #tileMap
+      [tilesetConfig]="tilesetConfig"
+      [groundConfig]="groundConfig"
+    ></app-tile-map>
+  </div>
+</div>

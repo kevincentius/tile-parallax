@@ -2,11 +2,23 @@
 <div class="h-box">
   <div class="v-box" style="width: 200px;">
     <div>
+      <div>Project:</div>
       <button (click)="fileInp.click()">Import</button>
       <input #fileInp type="file" hidden webkitdirectory mozdirectory (change)="importFolder($event)" />
-      <button>Export</button>
+      <button (click)="exportFolder()">Export</button>
+    </div>
+
+    <div style="height: 20px;"></div>
+
+    <div>
+      <div>Add new file:</div>
+      <input #fileNameInp value="untitled"/>
+      <button (click)="addTileset()">+Tileset</button>
+      <button (click)="addParallax()">+Parallax</button>
     </div>
   
+    <div style="height: 20px;"></div>
+
     <div style="overflow: auto;">
       <app-file-list
         [files]="state.files"
@@ -18,7 +30,14 @@
 
   <!-- Main Content -->
   <div style="flex-grow: 1; overflow: auto;">
-    <img #img [style.visibility]="state.selectedFile?.type === TpFileType.IMAGE ? 'visible' : 'none'"/>
+    <img #img [style.display]="getCssDisplay(TpFileType.IMAGE)"/>
+
+    <div *ngIf="state.selectedFile?.type === TpFileType.TILESET">
+      <app-tile-set-editor
+        [tilesetConfig]="getTilesetData()"
+        [files]="state.imgFiles"
+      ></app-tile-set-editor>
+    </div>
   </div>
 </div>
 

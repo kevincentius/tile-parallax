@@ -46,21 +46,21 @@ export class TilePickerComponent {
     }
   }
 
-  onFileUploaded(e: any) {
-    console.log(this.image);
-    this.image.nativeElement.src = URL.createObjectURL(e.target.files[0]);
+  setTilesetImage(imgSrc: string) {
+    this.image.nativeElement.src = imgSrc;
   }
-
+  
   onConfigChange() {
     const rows = Math.ceil(this.image.nativeElement.naturalHeight / this.config.spritesheet.tileHeight);
     const cols = Math.ceil(this.image.nativeElement.naturalWidth / this.config.spritesheet.tileWidth);
     
-    this.config.spritesheet.tiles = new Array(rows).fill(0)
-      .map((_, y) => new Array(cols).fill(0)
-        .map((_, x) => ({
-          posTypes: [],
-        })));
-    console.log(this.config);
+    if (this.config.spritesheet.tiles.length !== rows || this.config.spritesheet.tiles[0].length !== cols) {
+      this.config.spritesheet.tiles = new Array(rows).fill(0)
+        .map((_, y) => new Array(cols).fill(0)
+          .map((_, x) => ({
+            posTypes: [],
+          })));
+    }
   }
   
   onTileClick(i: number, j: number, event: MouseEvent) {
@@ -90,6 +90,6 @@ export class TilePickerComponent {
   };
 
   getSelectedTile() {    
-    return this.selectedTile ? this.config.spritesheet.tiles[this.selectedTile.i][this.selectedTile.j].posTypes : undefined;
+    return this.config.spritesheet.tiles && this.selectedTile ? this.config.spritesheet.tiles[this.selectedTile.i][this.selectedTile.j].posTypes : undefined;
   }
 }

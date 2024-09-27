@@ -31,10 +31,6 @@ export function generateTilePosTypeMap(groundCfg: GroundConfig): (TilePosType | 
 
   // flip vertically
   map.reverse();
-
-  console.log(ground);
-  console.log(map);
-
   return map;
 }
 
@@ -56,6 +52,7 @@ export function generateTilemap(tilesetCfg: TilesetConfig, groundCfg: GroundConf
   const typeMap = generateTilePosTypeMap(groundCfg);
   return typeMap.map((row, i) => row.map((type, j) => {
     if (type === null) return null;
-    return tilePickerMap.get(type)![Math.floor(Math.random() * tilePickerMap.get(type)!.length)];
+    const tilePoses = tilePickerMap.get(type) ?? [{ i: 0, j: 0 }];
+    return tilePoses[Math.floor(Math.random() * tilePoses.length)];
   }));
 }

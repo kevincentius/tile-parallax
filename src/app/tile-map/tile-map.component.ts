@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { generateTilemap } from '../parallax/parallax-data/tilemap-gen';
-import { Pos } from '../tile-picker/tileset-config';
-import { ParallaxLayerGenConfig } from '../parallax/parallax-data/parallax-layer-gen';
+import { TilesetConfig } from '../tile-picker/tileset-config';
+import { GroundConfig } from '../parallax/parallax-data/ground-gen';
 
 @Component({
   selector: 'app-tile-map',
@@ -11,25 +11,35 @@ import { ParallaxLayerGenConfig } from '../parallax/parallax-data/parallax-layer
   styleUrl: './tile-map.component.scss'
 })
 export class TileMapComponent {
+  @Input()
+  tilesetConfig!: TilesetConfig;
   
   @Input()
-  config!: ParallaxLayerGenConfig;
+  groundConfig!: GroundConfig;
 
   @ViewChild("canvas", { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
 
-  img!: HTMLImageElement;
+  img?: HTMLImageElement;
 
-  ngOnInit() {
+  setTilesetImage(imgSrc: string) {
     this.img = new Image();
-    this.img.src = 'assets/img/bg/parallax/' + this.config.tileset.spritesheet.path;
-    this.img.onload = () => console.log('loaded');
+    this.img.src = imgSrc;
+    this.img.onload = () => this.onGenerateClick();
   }
   
   onGenerateClick() {
-    const tilemap = generateTilemap(this.config.tileset, this.config.groundGen);
-    const tw = this.config.tileset.spritesheet.tileWidth;
-    const th = this.config.tileset.spritesheet.tileHeight;
+    if (this.img!.loading) {
+      this.generate();
+    } else {
+      this.img!.onload = () => this.generate();
+    }
+  }
+
+  generate() {
+    const tilemap = generateTilemap(this.tilesetConfig, this.groundConfig);
+    const tw = this.tilesetConfig.spritesheet.tileWidth;
+    const th = this.tilesetConfig.spritesheet.tileHeight;
     this.canvas.nativeElement.width = tilemap[0].length * tw;
     this.canvas.nativeElement.height = tilemap.length * th;
     
@@ -38,7 +48,7 @@ export class TileMapComponent {
     tilemap.forEach((row, i) => row.forEach((pos, j) => {
       if (pos === null) return;
       ctx.drawImage(
-        this.img,
+        this.img!,
         pos.j * tw, pos.i * th, tw, th,
         j * tw, i * th, tw, th,
       );

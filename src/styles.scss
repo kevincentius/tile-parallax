@@ -17,3 +17,14 @@ input, textarea {
 button {
   background: #333;
 }
+
+.h-box {
+  display: flex;
+  height: 100%;
+}
+
+.v-box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
