@@ -44,12 +44,35 @@ export class EditorLayoutComponent {
     }
   }
 
+  async importZip(event: Event) {
+    const files = [...(event.target as any).files];
+    if (files.length === 0) {
+      return;
+    }
+
+    const zip = await JSZip.loadAsync(files[0]);
+    const filesInZip = await Promise.all(
+      Object.values(zip.files)
+        .filter(file => !file.dir)
+        .map(file => {
+          return file.async('blob').then(function (fileData) {
+            return new File([fileData], file.name);
+          });
+        }));
+    console.log(filesInZip);
+    await this.importFiles(filesInZip);
+  }
+
   async importFolder(event: Event) {
     const files = [...(event.target as any).files];
     if (files.length === 0) {
       return;
     }
 
+    await this.importFiles(files);
+  }
+
+  private async importFiles(files: File[]) {
     this.state = {
       files: (await Promise.all(files.map(file => this.mapFile(file))))
         .filter(f => !!f) as TpFile[],
@@ -61,7 +84,8 @@ export class EditorLayoutComponent {
   }
 
   async mapFile(file: File): Promise<TpFile | undefined> {
-    const path = file.webkitRelativePath.split('/').slice(1).join('/');
+    const path = (file.webkitRelativePath == '' ? file.name : file.webkitRelativePath).split('/').slice(1).join('/');
+    console.log('Importing file', path);
     if (path.startsWith('image/')) {
       return {
         type: TpFileType.IMAGE,

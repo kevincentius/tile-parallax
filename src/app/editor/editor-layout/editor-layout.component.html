@@ -1,17 +1,21 @@
 
 <div class="h-box">
-  <div class="v-box" style="width: 200px;">
+  <div class="v-box" style="width: 230px;">
     <div>
       <div>Project:</div>
-      <button (click)="fileInp.click()">Import</button>
-      <input #fileInp type="file" hidden webkitdirectory mozdirectory (change)="importFolder($event)" />
+      <button (click)="folderInp.click()">Import Folder</button>
+      <input #folderInp type="file" hidden webkitdirectory mozdirectory (change)="importFolder($event)" />
+
+      <button (click)="fileInp.click()">Import ZIP</button>
+      <input #fileInp type="file" hidden (change)="importZip($event)" />
+
       <button (click)="exportFolder()">Export</button>
     </div>
 
     <div style="height: 20px;"></div>
 
     <div>
-      <div>Add new file:</div>
+      <div>Create new file:</div>
       <input #fileNameInp value="untitled"/>
       <button (click)="addTileset()">+Tileset</button>
       <button (click)="addParallax()">+Parallax</button>
