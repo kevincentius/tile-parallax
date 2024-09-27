@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ParallaxGenConfig } from '../parallax/parallax-config';
+import { ParallaxLayerGenConfig } from '../parallax/parallax-data/parallax-layer-gen';
 
 @Component({
   selector: 'app-config-io',
@@ -10,10 +10,10 @@ import { ParallaxGenConfig } from '../parallax/parallax-config';
 })
 export class ConfigIoComponent {
   @Input()
-  config!: ParallaxGenConfig;
+  config!: ParallaxLayerGenConfig;
 
   @Output()
-  configChange = new EventEmitter<ParallaxGenConfig>();
+  configChange = new EventEmitter<ParallaxLayerGenConfig>();
 
   @ViewChild("textAreaElm", { static: true })
   textArea!: ElementRef<HTMLTextAreaElement>;

@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { ParallaxGenConfig } from '../parallax/parallax-config';
-import { generateTilemap } from '../ground-gen/tilemap-gen';
+import { generateTilemap } from '../parallax/parallax-data/tilemap-gen';
 import { Pos } from '../tile-picker/tileset-config';
+import { ParallaxLayerGenConfig } from '../parallax/parallax-data/parallax-layer-gen';
 
 @Component({
   selector: 'app-tile-map',
@@ -13,7 +13,7 @@ import { Pos } from '../tile-picker/tileset-config';
 export class TileMapComponent {
   
   @Input()
-  config!: ParallaxGenConfig;
+  config!: ParallaxLayerGenConfig;
 
   @ViewChild("canvas", { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;

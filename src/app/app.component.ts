@@ -4,7 +4,7 @@ import { TilePickerComponent } from "./tile-picker/tile-picker.component";
 import { TileMapComponent } from "./tile-map/tile-map.component";
 import { GroundGenConfigComponent } from './ground-gen/ground-gen-config.component';
 import { c } from './hardcoded';
-import { defaultGroundConfig } from './ground-gen/ground-gen';
+import { defaultGroundConfig } from './parallax/parallax-data/ground-gen';
 import { ConfigIoComponent } from "./config-io/config-io.component";
 
 @Component({

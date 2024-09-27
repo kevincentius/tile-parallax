@@ -1,6 +1,11 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ParallaxData, ParallaxLayer } from './parallax';
+import { ParallaxData, ParallaxLayerData } from '../parallax-data/parallax-data';
 import { CommonModule } from '@angular/common';
+
+export interface ParallaxLayer {
+  data: ParallaxLayerData;
+  offset: number;
+}
 
 @Component({
   selector: 'app-parallax-background',

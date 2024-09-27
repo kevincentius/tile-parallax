@@ -1,4 +1,4 @@
-import { TilePosType, TilesetConfig } from "../tile-picker/tileset-config";
+import { TilePosType, TilesetConfig } from "../../tile-picker/tileset-config";
 import { GroundConfig, generateGround } from "./ground-gen";
 
 export function generateTilePosTypeMap(groundCfg: GroundConfig): (TilePosType | null)[][] {

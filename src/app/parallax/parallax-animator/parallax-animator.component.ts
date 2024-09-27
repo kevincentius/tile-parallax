@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ParallaxBackgroundComponent } from '../parallax-background/parallax-background.component';
 import { CommonModule } from '@angular/common';
-import { ParallaxData } from '../parallax-background/parallax';
+import { ParallaxData } from '../parallax-data/parallax-data';
 
 @Component({
   selector: 'app-parallax-animator',
