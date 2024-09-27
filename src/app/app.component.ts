@@ -6,11 +6,19 @@ import { GroundGenConfigComponent } from './ground-gen/ground-gen-config.compone
 import { c } from './hardcoded';
 import { defaultGroundConfig } from './parallax/parallax-data/ground-gen';
 import { ConfigIoComponent } from "./config-io/config-io.component";
+import { EditorLayoutComponent } from "./editor/editor-layout/editor-layout.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TilePickerComponent, TileMapComponent, GroundGenConfigComponent, ConfigIoComponent],
+  imports: [
+    RouterOutlet,
+    TilePickerComponent,
+    TileMapComponent,
+    GroundGenConfigComponent,
+    ConfigIoComponent,
+    EditorLayoutComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -1,0 +1,10 @@
+
+<div class="file-list">
+  <div *ngFor="let file of files"
+    class="file-list-item"
+    [class.selected]="file === selectedFile"
+    (click)="onFileClicked(file)"
+  >
+    {{file.path}}
+  </div>
+</div>

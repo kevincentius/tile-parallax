@@ -1,0 +1,16 @@
+
+.file-list {
+  overflow: auto;
+}
+
+.file-list-item {
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #fff2;
+  }
+
+  &.selected {
+    background-color: #fff4;
+  }
+}

@@ -2,6 +2,7 @@
 html, body {
   margin: 0;
   background: black;
+  height: 100%;
 }
 
 input, textarea {
@@ -11,4 +12,8 @@ input, textarea {
 * {
   color: white;
   text-shadow: black 1px 1px 1px;
+}
+
+button {
+  background: #333;
 }

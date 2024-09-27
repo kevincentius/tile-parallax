@@ -1,0 +1,24 @@
+
+<div class="h-box">
+  <div class="v-box" style="width: 200px;">
+    <div>
+      <button (click)="fileInp.click()">Import</button>
+      <input #fileInp type="file" hidden webkitdirectory mozdirectory (change)="importFolder($event)" />
+      <button>Export</button>
+    </div>
+  
+    <div style="overflow: auto;">
+      <app-file-list
+        [files]="state.files"
+        [selectedFile]="state.selectedFile"
+        (fileClick)="onFileClick($event)"
+      ></app-file-list>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div style="flex-grow: 1; overflow: auto;">
+    <img #img [style.visibility]="state.selectedFile?.type === TpFileType.IMAGE ? 'visible' : 'none'"/>
+  </div>
+</div>
+
