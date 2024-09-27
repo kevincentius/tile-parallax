@@ -5,7 +5,6 @@ import { TileMapComponent } from "./tile-map/tile-map.component";
 import { GroundGenConfigComponent } from './ground-gen/ground-gen-config.component';
 import { c } from './hardcoded';
 import { defaultGroundConfig } from './parallax/parallax-data/ground-gen';
-import { ConfigIoComponent } from "./config-io/config-io.component";
 import { EditorLayoutComponent } from "./editor/editor-layout/editor-layout.component";
 
 @Component({
@@ -16,7 +15,6 @@ import { EditorLayoutComponent } from "./editor/editor-layout/editor-layout.comp
     TilePickerComponent,
     TileMapComponent,
     GroundGenConfigComponent,
-    ConfigIoComponent,
     EditorLayoutComponent,
   ],
   templateUrl: './app.component.html',
