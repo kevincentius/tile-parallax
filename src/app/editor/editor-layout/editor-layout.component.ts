@@ -6,6 +6,10 @@ import { TileMapComponent } from "../../tile-map/tile-map.component";
 import { CommonModule } from '@angular/common';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { ParallaxAnimatorComponent } from "../../parallax/parallax-animator/parallax-animator.component";
+import { ParallaxEditorComponent } from '../parallax-editor/parallax-editor.component';
+import { EditorImageSrcProvider } from '../editor-image-src-provider';
+import { ParallaxData } from '../../parallax/parallax-data/parallax-data';
 
 @Component({
   selector: 'app-editor-layout',
@@ -16,7 +20,9 @@ import { saveAs } from 'file-saver';
     TileSetEditorComponent,
     TileMapComponent,
     TileSetEditorComponent,
-  ],
+    ParallaxEditorComponent,
+    ParallaxAnimatorComponent,
+],
   templateUrl: './editor-layout.component.html',
   styleUrl: './editor-layout.component.scss'
 })
@@ -24,13 +30,17 @@ export class EditorLayoutComponent {
   
   @ViewChild("img") img!: ElementRef<HTMLImageElement>;
   @ViewChild("fileNameInp") fileNameInp!: ElementRef<HTMLInputElement>;
+  @ViewChild("parallaxAnimator") parallaxAnimator!: ParallaxAnimatorComponent;
   
   TpFileType = TpFileType;
 
   state: EditorState = {
     files: [],
     imgFiles: [],
+    tilesetFiles: [],
   };
+
+  imgSrcProvider = new EditorImageSrcProvider(this.state.imgFiles);
 
   onFileClick(file: TpFile) {
     this.state.selectedFile = file;
@@ -41,7 +51,13 @@ export class EditorLayoutComponent {
         this.img.nativeElement.src = e.target!.result as string;
       };
       reader.readAsDataURL((file as TpImageFile).original!);
+    } else if (file.type === TpFileType.PARALLAX) {
+      this.parallaxAnimator.setParallax((file as TpParallaxFile).data);
     }
+  }
+
+  onParallaxDataChange(parallaxData: ParallaxData) {
+    this.parallaxAnimator.setParallax(parallaxData);
   }
 
   async importZip(event: Event) {
@@ -59,7 +75,6 @@ export class EditorLayoutComponent {
             return new File([fileData], file.name);
           });
         }));
-    console.log(filesInZip);
     await this.importFiles(filesInZip);
   }
 
@@ -77,15 +92,16 @@ export class EditorLayoutComponent {
       files: (await Promise.all(files.map(file => this.mapFile(file))))
         .filter(f => !!f) as TpFile[],
       imgFiles: [],
+      tilesetFiles: [],
     };
-    this.state.imgFiles = this.state.files.filter(f => f.type === TpFileType.IMAGE) as TpImageFile[];
     this.sortFiles();
     this.state.selectedFile = this.state.files[0];
+    
+    this.imgSrcProvider = new EditorImageSrcProvider(this.state.imgFiles);
   }
 
   async mapFile(file: File): Promise<TpFile | undefined> {
     const path = (file.webkitRelativePath == '' ? file.name : file.webkitRelativePath).split('/').slice(1).join('/');
-    console.log('Importing file', path);
     if (path.startsWith('image/')) {
       return {
         type: TpFileType.IMAGE,
@@ -113,19 +129,19 @@ export class EditorLayoutComponent {
   }
 
   exportFolder() {
-    console.log(this.state);
-    const zip = new JSZip();
+    const zip = new JSZip()
+    const rootFolder = zip.folder('export')!;
 
-    const imageFolder = zip.folder('image')!;
+    const imageFolder = rootFolder.folder('image')!;
     this.state.files.filter(f => f.type === TpFileType.IMAGE)
       .forEach(file => imageFolder.file(file.path.split('/').slice(1).join('/'), file.original!));
     
       
-    const tilesetFolder = zip.folder('tileset')!;
+    const tilesetFolder = rootFolder.folder('tileset')!;
     this.state.files.filter(f => f.type === TpFileType.TILESET)
       .forEach(file => tilesetFolder.file(file.path.split('/').slice(1).join('/'), JSON.stringify((file as TpTilesetFile).data)));
 
-    const parallaxFolder = zip.folder('parallax')!;
+    const parallaxFolder = rootFolder.folder('parallax')!;
     this.state.files.filter(f => f.type === TpFileType.PARALLAX)
       .forEach(file => parallaxFolder.file(file.path.split('/').slice(1).join('/'), JSON.stringify((file as TpParallaxFile).data)));
 
@@ -168,5 +184,7 @@ export class EditorLayoutComponent {
 
   private sortFiles() {
     this.state.files.sort((a, b) => a.path.localeCompare(b.path));
+    this.state.imgFiles = this.state.files.filter(f => f.type === TpFileType.IMAGE) as TpImageFile[];
+    this.state.tilesetFiles = this.state.files.filter(f => f.type === TpFileType.TILESET) as TpTilesetFile[];
   }
 }

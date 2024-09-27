@@ -1,6 +1,10 @@
 
-<div class="h-box">
-  <div class="v-box" style="width: 230px;">
+<div class="parallax-background">
+  <app-parallax-animator #parallaxAnimator [imgSrcProvider]="imgSrcProvider"></app-parallax-animator>
+</div>
+
+<div class="h-box" style="position: relative; z-index: 1;">
+  <div class="v-box" style="width: 230px; flex-shrink: 0;">
     <div>
       <div>Project:</div>
       <button (click)="folderInp.click()">Import Folder</button>
@@ -41,6 +45,15 @@
         [tilesetConfig]="getTilesetData()"
         [files]="state.imgFiles"
       ></app-tile-set-editor>
+    </div>
+
+    <div *ngIf="state.selectedFile?.type === TpFileType.PARALLAX">
+      <app-parallax-editor
+        [parallaxData]="getParallaxData()"
+        [imageFiles]="state.imgFiles"
+        [tilesetFiles]="state.tilesetFiles"
+        (parallaxDataChange)="onParallaxDataChange($event)"
+      ></app-parallax-editor>
     </div>
   </div>
 </div>

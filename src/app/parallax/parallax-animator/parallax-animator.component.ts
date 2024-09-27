@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ParallaxBackgroundComponent } from '../parallax-background/parallax-background.component';
 import { CommonModule } from '@angular/common';
 import { ParallaxData } from '../parallax-data/parallax-data';
+import { ImgSrcProvider } from '../parallax-data/img-src-provider';
 
 @Component({
   selector: 'app-parallax-animator',
@@ -18,6 +19,8 @@ export class ParallaxAnimatorComponent implements OnInit {
 
   timeout: any;
   lastMs = Date.now();
+
+  @Input() imgSrcProvider!: ImgSrcProvider;
 
   @ViewChild('parallax', { static: true }) parallax!: ParallaxBackgroundComponent;
 

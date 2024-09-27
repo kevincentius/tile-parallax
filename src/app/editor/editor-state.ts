@@ -32,5 +32,6 @@ export type TpFile = TpImageFile | TpTilesetFile | TpParallaxFile;
 export interface EditorState {
   files: TpFile[];
   imgFiles: TpImageFile[]; // files but filtered to only images
+  tilesetFiles: TpTilesetFile[]; // files but filtered to only tilesets
   selectedFile?: TpFile;
 }

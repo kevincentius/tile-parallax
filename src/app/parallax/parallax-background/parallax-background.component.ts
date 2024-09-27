@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ParallaxData, ParallaxLayerData } from '../parallax-data/parallax-data';
 import { CommonModule } from '@angular/common';
+import { ImgSrcProvider } from '../parallax-data/img-src-provider';
 
 export interface ParallaxLayer {
   data: ParallaxLayerData;
@@ -16,7 +17,7 @@ export interface ParallaxLayer {
 })
 export class ParallaxBackgroundComponent {
 
-  @Input() assetBasePath = 'assets/img/bg/parallax/';
+  @Input() imgSrcProvider!: ImgSrcProvider;
 
   layers: ParallaxLayer[] = [];
 

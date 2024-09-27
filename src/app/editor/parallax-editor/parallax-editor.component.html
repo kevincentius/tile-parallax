@@ -1,1 +1,25 @@
-<p>parallax-editor works!</p>
+
+<div>
+  <div><button (click)="addLayer()">+Layer</button></div>
+  <div *ngFor="let layer of parallaxData.layers">
+    <div>
+      <select
+        [(ngModel)]="layer.image"
+        (ngModelChange)="onImageSelect()"
+      >
+        <option *ngFor="let file of imageFiles" [ngValue]="file.path">
+          {{file.path}}
+        </option>
+      </select>
+    </div>
+    <div>
+      <input [(ngModel)]="layer.mult" type="number" (ngModelChange)="onLayerChange()" />
+    </div>
+    <div>
+      <input [(ngModel)]="layer.static" type="checkbox" (ngModelChange)="onLayerChange()" /> static
+    </div>
+    <div>
+      <input [(ngModel)]="layer.disabled" type="checkbox" (ngModelChange)="onLayerChange()" /> disabled
+    </div>
+  </div>
+</div>
