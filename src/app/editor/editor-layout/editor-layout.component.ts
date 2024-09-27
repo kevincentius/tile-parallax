@@ -4,6 +4,8 @@ import { EditorState, TpFile, TpFileType, TpImageFile, TpParallaxFile, TpTileset
 import { TileSetEditorComponent } from "../tile-set-editor/tile-set-editor.component";
 import { TileMapComponent } from "../../tile-map/tile-map.component";
 import { CommonModule } from '@angular/common';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-editor-layout',
@@ -54,6 +56,7 @@ export class EditorLayoutComponent {
       imgFiles: [],
     };
     this.state.imgFiles = this.state.files.filter(f => f.type === TpFileType.IMAGE) as TpImageFile[];
+    this.sortFiles();
     this.state.selectedFile = this.state.files[0];
   }
 
@@ -62,7 +65,7 @@ export class EditorLayoutComponent {
     if (path.startsWith('image/')) {
       return {
         type: TpFileType.IMAGE,
-        path: file.webkitRelativePath,
+        path: path,
         original: file,
       };
     } else if (path.startsWith('tileset/')) {
@@ -87,6 +90,23 @@ export class EditorLayoutComponent {
 
   exportFolder() {
     console.log(this.state);
+    const zip = new JSZip();
+
+    const imageFolder = zip.folder('image')!;
+    this.state.files.filter(f => f.type === TpFileType.IMAGE)
+      .forEach(file => imageFolder.file(file.path.split('/').slice(1).join('/'), file.original!));
+    
+      
+    const tilesetFolder = zip.folder('tileset')!;
+    this.state.files.filter(f => f.type === TpFileType.TILESET)
+      .forEach(file => tilesetFolder.file(file.path.split('/').slice(1).join('/'), JSON.stringify((file as TpTilesetFile).data)));
+
+    const parallaxFolder = zip.folder('parallax')!;
+    this.state.files.filter(f => f.type === TpFileType.PARALLAX)
+      .forEach(file => parallaxFolder.file(file.path.split('/').slice(1).join('/'), JSON.stringify((file as TpParallaxFile).data)));
+
+    // download zip
+    zip.generateAsync({ type: 'blob' }).then(content => saveAs(content, 'export.zip'));
   }
 
   getCssDisplay(type: TpFileType) { return this.state.selectedFile?.type === type ? 'block' : 'none'; }
@@ -96,7 +116,7 @@ export class EditorLayoutComponent {
   addTileset() {
     this.state.files.push({
       type: TpFileType.TILESET,
-      path: 'tileset/' + this.fileNameInp.nativeElement.value,
+      path: 'tileset/' + this.fileNameInp.nativeElement.value + '.json',
       data: {
         spritesheet: {
           path: 'tileset/sample',
@@ -107,16 +127,22 @@ export class EditorLayoutComponent {
         },
       },
     });
+    this.sortFiles();
   }
 
   addParallax() {
     this.state.files.push({
       type: TpFileType.PARALLAX,
-      path: 'parallax/' + this.fileNameInp.nativeElement.value,
+      path: 'parallax/' + this.fileNameInp.nativeElement.value + '.json',
       data: {
         id: 'sample',
         layers: [],
       },
     });
+    this.sortFiles();
+  }
+
+  private sortFiles() {
+    this.state.files.sort((a, b) => a.path.localeCompare(b.path));
   }
 }
