@@ -1,0 +1,53 @@
+
+<div>
+  <div class="inp-row">
+    <div class="inp-label">Scale</div>
+    <div class="inp-value">
+      <input type="number" [(ngModel)]="config.spritesheet.scale" (change)="onConfigChange()" min="1" max="8">
+    </div>
+  </div>
+
+  <div class="inp-row">
+    <div class="inp-label">Tile width</div>
+      <div class="inp-value">
+        <input type="number" [(ngModel)]="config.spritesheet.tileWidth" (change)="onConfigChange()" min="1" max="128">
+    </div>
+  </div>
+
+  <div class="inp-row">
+    <div class="inp-label">Tile height</div>
+      <div class="inp-value">
+        <input type="number" [(ngModel)]="config.spritesheet.tileHeight" (change)="onConfigChange()" min="1" max="128">
+    </div>
+  </div>
+
+  <div class="tile-pos-type-picker-row" *ngFor="let row of posTypeRows">
+    <div *ngFor="let col of posTypeCols"
+      class="tile-pos-type-picker-cell"
+      [class.selected]="getSelectedTile()?.includes(getPosTypeCellId(row, col))"
+      (click)="onPosTypeCellClick(row, col)"
+    >{{getPosTypeCellId(row, col)}}</div>
+  </div>
+</div>
+
+<div class="tileset">
+  <img #imageElm
+    [src]="'assets/img/bg/parallax/' + config.spritesheet.path"
+    [width]="imageElm.naturalWidth * config.spritesheet.scale"
+    [height]="imageElm.naturalHeight * config.spritesheet.scale"
+  />
+  
+  <div class="tileset-overlay">
+    <div class="tileset-overlay-row" *ngFor="let row of config.spritesheet.tiles; let i = index">
+      <div class="tileset-overlay-cell" *ngFor="let cell of row; let j = index"
+        [class.selected]="selectedTile && selectedTile.i == i && selectedTile.j == j"
+        [style.width.px]="config.spritesheet.tileWidth * config.spritesheet.scale"
+        [style.height.px]="config.spritesheet.tileHeight * config.spritesheet.scale"
+        (mousedown)="onTileClick(i, j, $event)"
+      >
+        <ng-container *ngIf="cell.posTypes.length === 1">{{cell.posTypes[0]}}</ng-container>
+        <ng-container *ngIf="cell.posTypes.length > 1">+</ng-container>
+      </div>
+    </div>
+  </div>
+</div>

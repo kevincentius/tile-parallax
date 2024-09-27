@@ -1,0 +1,7 @@
+
+parallax layer data:
+  image? if static image
+  tileset? if tileset with generated map
+
+  mult
+  static

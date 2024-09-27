@@ -1,0 +1,20 @@
+
+<div #parallaxContainer class="parallax-container">
+  <ng-container *ngFor="let layer of layers">
+    <div
+      *ngIf="!layer.data.static"
+      class="parallax-layer"
+      [style.background-image]="'url(./assets/img/bg/parallax/' + layer.data.image + ')'"
+      [style.background-position-x]="(-layer.offset) + 'px'"
+    >
+    </div>
+
+    <div
+      *ngIf="layer.data.static"
+      class="parallax-static-layer"
+      [style.background-image]="'url(./assets/img/bg/parallax/' + layer.data.image + ')'"
+    >
+    </div>
+  </ng-container>
+</div>
+

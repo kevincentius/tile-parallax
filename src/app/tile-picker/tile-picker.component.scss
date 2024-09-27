@@ -1,0 +1,59 @@
+
+.tileset {
+  position: relative;
+  
+  .tileset-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+}
+
+.inp-row {
+  display: flex;
+  
+  .inp-label {
+    width: 100px;
+  }
+}
+
+.tileset-overlay-row {
+  display: flex;
+}
+
+.tileset-overlay-cell {
+  box-sizing: border-box;
+  border: 1px solid #000;
+
+  cursor: pointer;
+  &:hover {
+    background-color: #fff3;
+  }
+
+  &.selected {
+    background-color: #fff3;
+  }
+}
+
+.tile-pos-type-picker-row {
+  display: flex;
+}
+
+.tile-pos-type-picker-cell {
+  box-sizing: border-box;
+  border: 1px solid #000;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #666;
+  }
+
+  &.selected {
+    background-color: #444;
+    font-weight: bold;
+  }
+}
