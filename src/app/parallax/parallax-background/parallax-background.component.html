@@ -4,7 +4,7 @@
     <div
       *ngIf="!layer.data.static && !layer.data.disabled"
       class="parallax-layer"
-      [style.background-image]="'url(' + imgSrcProvider.getSrc(layer.data.image!) + ')'"
+      [style.background-image]="'url(' + (layer.genDataUrl ?? imgSrcProvider.getSrc(layer.data.image!)) + ')'"
       [style.background-position-x]="(-layer.offset) + 'px'"
     >
     </div>
@@ -12,7 +12,7 @@
     <div
       *ngIf="layer.data.static && !layer.data.disabled"
       class="parallax-static-layer"
-      [style.background-image]="'url(' + imgSrcProvider.getSrc(layer.data.image!) + ')'"
+      [style.background-image]="'url(' + (layer.genDataUrl ?? imgSrcProvider.getSrc(layer.data.image!)) + ')'"
     >
     </div>
   </ng-container>

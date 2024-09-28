@@ -23,6 +23,7 @@ export class TileMapComponent {
   img?: HTMLImageElement;
 
   setTilesetImage(imgSrc: string) {
+    console.log('tilemap imgsrc', imgSrc);
     this.img = new Image();
     this.img.src = imgSrc;
     this.img.onload = () => this.onGenerateClick();

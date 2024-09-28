@@ -2,10 +2,13 @@ import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChil
 import { ParallaxData, ParallaxLayerData } from '../parallax-data/parallax-data';
 import { CommonModule } from '@angular/common';
 import { ImgSrcProvider } from '../parallax-data/img-src-provider';
+import { ParallaxLayerGenConfig } from '../parallax-data/parallax-layer-gen';
+import { drawTilemap } from '../parallax-data/tilemap-gen';
 
 export interface ParallaxLayer {
   data: ParallaxLayerData;
   offset: number;
+  genDataUrl?: string;
 }
 
 @Component({
@@ -24,11 +27,21 @@ export class ParallaxBackgroundComponent {
   @ViewChild('parallaxContainer', { static: true }) container!: ElementRef<HTMLDivElement>;
   width = 100;
 
-  setParallax(parallaxData: ParallaxData) {
-    this.layers = parallaxData.layers.map(l => ({
+  @ViewChild('debugCanvas', { static: true }) debugCanvas!: ElementRef<HTMLCanvasElement>;
+
+  async setParallax(parallaxData: ParallaxData) {
+    this.layers = await Promise.all(parallaxData.layers.map(async l => ({
       data: l,
       offset: 0,
-    }))
+      genDataUrl: l.gen ? await this.generateLayerImage(l.gen) : undefined,
+    })));
+  }
+
+  async generateLayerImage(gen: ParallaxLayerGenConfig): Promise<string> {
+    const canvas = document.createElement('canvas');
+    await drawTilemap(gen.tileset, gen.groundGen, canvas, this.imgSrcProvider);
+    console.log('canvas data url', canvas.toDataURL());
+    return canvas.toDataURL();
   }
 
   advance(pixels: number) {

@@ -98,6 +98,7 @@ export class EditorLayoutComponent {
     this.state.selectedFile = this.state.files[0];
     
     this.imgSrcProvider = new EditorImageSrcProvider(this.state.imgFiles);
+    await this.imgSrcProvider.init();
   }
 
   async mapFile(file: File): Promise<TpFile | undefined> {

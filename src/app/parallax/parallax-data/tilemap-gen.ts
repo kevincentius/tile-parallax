@@ -1,7 +1,8 @@
 import { TilePosType, TilesetConfig } from "../../tile-picker/tileset-config";
 import { GroundConfig, generateGround } from "./ground-gen";
+import { ImgSrcProvider } from "./img-src-provider";
 
-export function generateTilePosTypeMap(groundCfg: GroundConfig): (TilePosType | null)[][] {
+function generateTilePosTypeMap(groundCfg: GroundConfig): (TilePosType | null)[][] {
   const ground = generateGround(groundCfg);
   const map = new Array(groundCfg.amp + 1).fill(0)
     .map((_, i) => new Array(ground.length).fill(0)
@@ -56,3 +57,32 @@ export function generateTilemap(tilesetCfg: TilesetConfig, groundCfg: GroundConf
     return tilePoses[Math.floor(Math.random() * tilePoses.length)];
   }));
 }
+
+export async function drawTilemap(tilesetCfg: TilesetConfig, groundCfg: GroundConfig, canvas: HTMLCanvasElement, imgSrcProvider: ImgSrcProvider) {
+  const tilemap = generateTilemap(tilesetCfg, groundCfg);
+  const tw = tilesetCfg.spritesheet.tileWidth;
+  const th = tilesetCfg.spritesheet.tileHeight;
+  canvas.width = tilemap[0].length * tw;
+  canvas.height = tilemap.length * th;
+  
+  const img = await loadImage(tilesetCfg.spritesheet.path, imgSrcProvider);
+  const ctx = canvas.getContext("2d")!;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  tilemap.forEach((row, i) => row.forEach((pos, j) => {
+    if (pos === null) return;
+    ctx.drawImage(
+      img!,
+      pos.j * tw, pos.i * th, tw, th,
+      j * tw, i * th, tw, th,
+    );
+  }));
+}
+async function loadImage(path: string, imgSrcProvider: ImgSrcProvider) {
+  const img = new Image();
+  img.src = imgSrcProvider.getSrc(path);
+  await new Promise<void>(resolve => {
+    img.onload = () => resolve();
+  });
+  return img;
+}
+

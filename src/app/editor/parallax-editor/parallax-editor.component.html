@@ -3,6 +3,11 @@
   <div><button (click)="addLayer()">+Layer</button></div>
   <div *ngFor="let layer of parallaxData.layers">
     <div>
+      <button (click)="changeLayerToImage(layer)">Use Image</button>
+      <button (click)="changeLayerToTilemap(layer)">Use Tileset</button>
+      <button (click)="removeLayer(layer)">Remove Layer</button>
+    </div>
+    <div *ngIf="layer.image">
       <select
         [(ngModel)]="layer.image"
         (ngModelChange)="onImageSelect()"
@@ -11,6 +16,25 @@
           {{file.path}}
         </option>
       </select>
+    </div>
+    <div *ngIf="layer.gen">
+      <div>
+        <select
+          [(ngModel)]="layer.gen.tileset"
+          (ngModelChange)="onTilesetSelect()"
+        >
+          <option *ngFor="let file of tilesetFiles" [ngValue]="file.data">
+            {{file.path}}
+          </option>
+        </select>
+      </div>
+      <div>
+        width: <input [(ngModel)]="layer.gen.groundGen.width" type="number" (ngModelChange)="onLayerChange()" />
+        <span style="width: 50px;"></span>
+        amp: <input [(ngModel)]="layer.gen.groundGen.amp" type="number" (ngModelChange)="onLayerChange()" />
+        <span style="width: 50px;"></span>
+        wl: <input [(ngModel)]="layer.gen.groundGen.wl" type="number" (ngModelChange)="onLayerChange()" />
+      </div>
     </div>
     <div>
       <input [(ngModel)]="layer.mult" type="number" (ngModelChange)="onLayerChange()" />

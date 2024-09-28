@@ -28,14 +28,41 @@ export class ParallaxEditorComponent {
   @Output()
   parallaxDataChange = new EventEmitter<ParallaxData>();
   
+  changeLayerToImage(layer: ParallaxLayerData) {
+    layer.image = this.imageFiles[0].path;
+    layer.gen = undefined;
+    this.emitChange();
+  }
+
+  changeLayerToTilemap(layer: ParallaxLayerData) {
+    layer.gen = {
+      tileset: this.tilesetFiles[0].data,
+      groundGen: {
+        amp: 10,
+        wl: 10,
+        width: 100,
+      },
+    };
+    layer.image = undefined;
+    this.emitChange();
+  }
+
+  removeLayer(layer: ParallaxLayerData) {
+    const idx = this.parallaxData.layers.indexOf(layer);
+    this.parallaxData.layers.splice(idx, 1);
+    this.emitChange();
+  }
+
   onImageSelect() {
-    // layer.image = image;
-    console.log("hey");
-    this.parallaxDataChange.emit(this.parallaxData);
+    this.emitChange();
+  }
+
+  onTilesetSelect() {
+    this.emitChange();
   }
 
   onLayerChange() {
-    this.parallaxDataChange.emit(this.parallaxData);
+    this.emitChange();
   }
 
   addLayer() {
@@ -43,6 +70,10 @@ export class ParallaxEditorComponent {
       image: this.imageFiles[0].path,
       mult: 1,
     });
+    this.emitChange();
+  }
+
+  private emitChange() {
     this.parallaxDataChange.emit(this.parallaxData);
   }
 }
