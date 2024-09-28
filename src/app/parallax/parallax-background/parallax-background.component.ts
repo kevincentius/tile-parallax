@@ -9,6 +9,7 @@ export interface ParallaxLayer {
   data: ParallaxLayerData;
   offset: number;
   genDataUrl?: string;
+  style?: string;
 }
 
 @Component({
@@ -29,11 +30,14 @@ export class ParallaxBackgroundComponent {
 
   @ViewChild('debugCanvas', { static: true }) debugCanvas!: ElementRef<HTMLCanvasElement>;
 
+  layerStyle?: object;
+
   async setParallax(parallaxData: ParallaxData) {
     this.layers = await Promise.all(parallaxData.layers.map(async l => ({
       data: l,
       offset: 0,
       genDataUrl: l.gen ? await this.generateLayerImage(l.gen) : undefined,
+      style: l.style ?? '',
     })));
   }
 

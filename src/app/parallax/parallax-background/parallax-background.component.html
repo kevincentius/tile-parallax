@@ -8,6 +8,7 @@
       [style.background-position-x]="(-layer.offset) + 'px'"
       [style.height]="layer.data.height + '%'"
       [style.bottom]="layer.data.bottom ?? 0 + '%'"
+      [style.filter]="layer.style"
     >
     </div>
 
@@ -17,6 +18,7 @@
       [style.background-image]="'url(' + (layer.genDataUrl ?? imgSrcProvider.getSrc(layer.data.image!)) + ')'"
       [style.height]="layer.data.height + '%'"
       [style.bottom]="layer.data.bottom ?? 0 + '%'"
+      [style.filter]="layer.style"
     >
     </div>
   </ng-container>
