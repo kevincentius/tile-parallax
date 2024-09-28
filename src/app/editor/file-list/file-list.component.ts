@@ -14,6 +14,9 @@ export class FileListComponent {
   @Output()
   fileClick = new EventEmitter<TpFile>();
   
+  @Output()
+  deleteFileClick = new EventEmitter<TpFile>();
+
   @Input()
   files!: TpFile[];
 
@@ -22,5 +25,9 @@ export class FileListComponent {
 
   onFileClicked(file: TpFile) {
     this.fileClick.emit(file);
+  }
+
+  onDeleteFileClick(file: TpFile) {
+    this.deleteFileClick.emit(file);
   }
 }

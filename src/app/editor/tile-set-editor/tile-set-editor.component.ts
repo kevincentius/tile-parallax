@@ -41,8 +41,6 @@ export class TileSetEditorComponent {
     if (this.selectedImageFile) {
       this.onImageSelect(this.selectedImageFile);
     }
-
-    console.log(this.tilesetConfig);
   }
   
   onImageSelect(file: TpImageFile) {

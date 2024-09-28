@@ -69,6 +69,7 @@ export class ParallaxEditorComponent {
     this.parallaxData.layers.push({
       image: this.imageFiles[0].path,
       mult: 1,
+      height: 100,
     });
     this.emitChange();
   }

@@ -56,6 +56,12 @@ export class EditorLayoutComponent {
     }
   }
 
+  onDeleteFileClick(file: TpFile) {
+    const idx = this.state.files.indexOf(file);
+    this.state.files.splice(idx, 1);
+    this.sortFiles();
+  }
+
   onParallaxDataChange(parallaxData: ParallaxData) {
     this.parallaxAnimator.setParallax(parallaxData);
   }

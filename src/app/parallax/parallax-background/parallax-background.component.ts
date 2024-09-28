@@ -40,7 +40,6 @@ export class ParallaxBackgroundComponent {
   async generateLayerImage(gen: ParallaxLayerGenConfig): Promise<string> {
     const canvas = document.createElement('canvas');
     await drawTilemap(gen.tileset, gen.groundGen, canvas, this.imgSrcProvider);
-    console.log('canvas data url', canvas.toDataURL());
     return canvas.toDataURL();
   }
 
