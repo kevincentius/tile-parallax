@@ -1,13 +1,21 @@
 
-<div>
+<div class="column-container">
   <div><button (click)="addLayer()">+Layer</button></div>
-  <div *ngFor="let layer of parallaxData.layers">
+  <div *ngFor="let layer of parallaxData.layers; let i = index">
+    <div></div>
     <div>
+      <label>Layer {{i + 1}}</label>
       <button (click)="changeLayerToImage(layer)">Use Image</button>
       <button (click)="changeLayerToTilemap(layer)">Use Tileset</button>
       <button (click)="removeLayer(layer)">Remove Layer</button>
+      speed: <input [(ngModel)]="layer.mult" type="number" (ngModelChange)="onLayerChange()" />
+      height: <input [(ngModel)]="layer.height" type="number" (ngModelChange)="onLayerChange()" />
+      bottom: <input [(ngModel)]="layer.bottom" type="number" (ngModelChange)="onLayerChange()" />
+      <input [(ngModel)]="layer.static" type="checkbox" (ngModelChange)="onLayerChange()" /> static
+      <input [(ngModel)]="layer.disabled" type="checkbox" (ngModelChange)="onLayerChange()" /> disable
     </div>
     <div *ngIf="layer.image">
+      <label>Image:</label>
       <select
         [(ngModel)]="layer.image"
         (ngModelChange)="onImageSelect()"
@@ -19,6 +27,7 @@
     </div>
     <div *ngIf="layer.gen">
       <div>
+        <label>Tileset:</label>
         <select
           [(ngModel)]="layer.gen.tileset"
           (ngModelChange)="onTilesetSelect()"
@@ -29,6 +38,7 @@
         </select>
       </div>
       <div>
+        <label>Ground generation:</label>
         width: <input [(ngModel)]="layer.gen.groundGen.width" type="number" (ngModelChange)="onLayerChange()" />
         <span style="width: 50px;"></span>
         amp: <input [(ngModel)]="layer.gen.groundGen.amp" type="number" (ngModelChange)="onLayerChange()" />
@@ -36,20 +46,9 @@
         wl: <input [(ngModel)]="layer.gen.groundGen.wl" type="number" (ngModelChange)="onLayerChange()" />
       </div>
     </div>
-    <div>
-      <input [(ngModel)]="layer.mult" type="number" (ngModelChange)="onLayerChange()" />
-    </div>
-    <div>
-      <input [(ngModel)]="layer.height" type="number" (ngModelChange)="onLayerChange()" />
-    </div>
-    <div>
-      <input [(ngModel)]="layer.static" type="checkbox" (ngModelChange)="onLayerChange()" /> static
-    </div>
-    <div>
-      <input [(ngModel)]="layer.disabled" type="checkbox" (ngModelChange)="onLayerChange()" /> disabled
-    </div>
-    <div>
-      <input [(ngModel)]="layer.style" (ngModelChange)="onLayerChange()"/>
+    <div style="display: flex;">
+      <label>CSS filters:</label>
+      <input [(ngModel)]="layer.filter" (ngModelChange)="onLayerChange()" style="flex-grow: 1"/>
     </div>
   </div>
 </div>

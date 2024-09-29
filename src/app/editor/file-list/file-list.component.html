@@ -5,10 +5,9 @@
     [class.selected]="file === selectedFile"
     (click)="onFileClicked(file)"
   >
+    <button (click)="onDeleteFileClick(file)">x</button>
     <div style="flex-grow: 1">
       {{file.path}}
     </div>
-
-    <button (click)="onDeleteFileClick(file)">x</button>
   </div>
 </div>

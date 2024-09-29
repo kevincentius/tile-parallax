@@ -4,6 +4,7 @@
 }
 
 .file-list-item {
+  display: flex;
   cursor: pointer;
   
   &:hover {

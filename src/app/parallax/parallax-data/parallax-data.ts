@@ -9,7 +9,7 @@ export interface ParallaxLayerData {
   disabled?: boolean;
   height: number;                // percentage of the screen height
   bottom?: number;               // percentage of the screen height
-  style?: string;                // additional style for the layer
+  filter?: string;               // additional style for the layer
 }
 
 export interface ParallaxData {

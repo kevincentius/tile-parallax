@@ -193,5 +193,6 @@ export class EditorLayoutComponent {
     this.state.files.sort((a, b) => a.path.localeCompare(b.path));
     this.state.imgFiles = this.state.files.filter(f => f.type === TpFileType.IMAGE) as TpImageFile[];
     this.state.tilesetFiles = this.state.files.filter(f => f.type === TpFileType.TILESET) as TpTilesetFile[];
+    this.imgSrcProvider = new EditorImageSrcProvider(this.state.imgFiles);
   }
 }

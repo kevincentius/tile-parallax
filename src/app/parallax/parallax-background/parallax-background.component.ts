@@ -37,7 +37,7 @@ export class ParallaxBackgroundComponent {
       data: l,
       offset: 0,
       genDataUrl: l.gen ? await this.generateLayerImage(l.gen) : undefined,
-      style: l.style ?? '',
+      style: l.filter ?? '',
     })));
   }
 

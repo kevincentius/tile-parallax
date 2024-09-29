@@ -1,0 +1,15 @@
+
+.column-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+input[type="number"] {
+  width: 50px;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+}
