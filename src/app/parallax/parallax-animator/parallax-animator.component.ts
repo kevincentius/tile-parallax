@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ParallaxBackgroundComponent } from '../parallax-background/parallax-background.component';
 import { CommonModule } from '@angular/common';
 import { ParallaxData } from '../parallax-data/parallax-data';
-import { ImgSrcProvider } from '../parallax-data/img-src-provider';
+import { ImgSrcProvider, TilesetProvider } from '../parallax-data/resource-provider';
 
 @Component({
   selector: 'app-parallax-animator',
@@ -21,6 +21,7 @@ export class ParallaxAnimatorComponent implements OnInit {
   lastMs = Date.now();
 
   @Input() imgSrcProvider!: ImgSrcProvider;
+  @Input() tilesetProvider!: TilesetProvider;
 
   @ViewChild('parallax', { static: true }) parallax!: ParallaxBackgroundComponent;
 

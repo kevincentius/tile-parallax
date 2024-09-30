@@ -32,7 +32,7 @@
           [(ngModel)]="layer.gen.tileset"
           (ngModelChange)="onTilesetSelect()"
         >
-          <option *ngFor="let file of tilesetFiles" [ngValue]="file.data">
+          <option *ngFor="let file of tilesetFiles" [ngValue]="file.path">
             {{file.path}}
           </option>
         </select>

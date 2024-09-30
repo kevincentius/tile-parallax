@@ -8,8 +8,10 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { ParallaxAnimatorComponent } from "../../parallax/parallax-animator/parallax-animator.component";
 import { ParallaxEditorComponent } from '../parallax-editor/parallax-editor.component';
-import { EditorImageSrcProvider } from '../editor-image-src-provider';
+import { EditorImgSrcProvider } from '../editor-image-src-provider';
 import { ParallaxData } from '../../parallax/parallax-data/parallax-data';
+import { TilesetRemapper } from '../tools/tileset-remapper';
+import { EditorTilesetProvider } from '../editor-tileset-provider';
 
 @Component({
   selector: 'app-editor-layout',
@@ -40,7 +42,8 @@ export class EditorLayoutComponent {
     tilesetFiles: [],
   };
 
-  imgSrcProvider = new EditorImageSrcProvider(this.state.imgFiles);
+  imgSrcProvider = new EditorImgSrcProvider(this.state.imgFiles);
+  tilesetProvider = new EditorTilesetProvider(this.state.tilesetFiles);
 
   onFileClick(file: TpFile) {
     this.state.selectedFile = file;
@@ -103,7 +106,8 @@ export class EditorLayoutComponent {
     this.sortFiles();
     this.state.selectedFile = this.state.files[0];
     
-    this.imgSrcProvider = new EditorImageSrcProvider(this.state.imgFiles);
+    this.tilesetProvider = new EditorTilesetProvider(this.state.tilesetFiles);
+    this.imgSrcProvider = new EditorImgSrcProvider(this.state.imgFiles);
     await this.imgSrcProvider.init();
   }
 
@@ -141,7 +145,7 @@ export class EditorLayoutComponent {
 
     const imageFolder = rootFolder.folder('image')!;
     this.state.files.filter(f => f.type === TpFileType.IMAGE)
-      .forEach(file => imageFolder.file(file.path.split('/').slice(1).join('/'), file.original!));
+      .forEach(file => imageFolder.file(file.path.split('/').slice(1).join('/'), (file as TpImageFile).data ?? file.original!));
     
       
     const tilesetFolder = rootFolder.folder('tileset')!;
@@ -160,6 +164,29 @@ export class EditorLayoutComponent {
   getTilesetData() { return (this.state.selectedFile as TpTilesetFile).data; }
   getParallaxData() { return (this.state.selectedFile as TpParallaxFile).data;}
   
+  async addImage() {
+    // prompt file
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async () => {
+      if (input.files!.length === 0) {
+        return;
+      }
+
+      const file = input.files![0];
+      this.state.files.push({
+        type: TpFileType.IMAGE,
+        path: 'image/' + file.name,
+        original: file,
+      });
+
+      this.sortFiles();
+    };
+
+    input.click();
+  }
+
   addTileset() {
     this.state.files.push({
       type: TpFileType.TILESET,
@@ -189,10 +216,17 @@ export class EditorLayoutComponent {
     this.sortFiles();
   }
 
-  private sortFiles() {
+  private async sortFiles() {
     this.state.files.sort((a, b) => a.path.localeCompare(b.path));
     this.state.imgFiles = this.state.files.filter(f => f.type === TpFileType.IMAGE) as TpImageFile[];
     this.state.tilesetFiles = this.state.files.filter(f => f.type === TpFileType.TILESET) as TpTilesetFile[];
-    this.imgSrcProvider = new EditorImageSrcProvider(this.state.imgFiles);
+    
+    this.tilesetProvider = new EditorTilesetProvider(this.state.tilesetFiles);
+    this.imgSrcProvider = new EditorImgSrcProvider(this.state.imgFiles);
+    await this.imgSrcProvider.init();
+  }
+
+  remapTiles() {
+    new TilesetRemapper(this.state.imgFiles, this.state.tilesetFiles).remap();
   }
 }

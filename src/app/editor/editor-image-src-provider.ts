@@ -1,6 +1,7 @@
+import { ImgSrcProvider } from "../parallax/parallax-data/resource-provider";
 import { TpImageFile } from "./editor-state";
 
-export class EditorImageSrcProvider {
+export class EditorImgSrcProvider implements ImgSrcProvider {
   imgMap = new Map<string, string>();
 
   constructor(

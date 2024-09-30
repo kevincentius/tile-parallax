@@ -15,6 +15,7 @@ interface ITpFile {
 
 export interface TpImageFile extends ITpFile {
   type: TpFileType.IMAGE;
+  data?: Blob; // if not provided, the original will be saved
 }
 
 export interface TpTilesetFile extends ITpFile {

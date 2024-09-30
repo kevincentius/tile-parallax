@@ -1,6 +1,9 @@
 
 <div class="parallax-background">
-  <app-parallax-animator #parallaxAnimator [imgSrcProvider]="imgSrcProvider"></app-parallax-animator>
+  <app-parallax-animator #parallaxAnimator
+    [imgSrcProvider]="imgSrcProvider"
+    [tilesetProvider]="tilesetProvider"
+  ></app-parallax-animator>
 </div>
 
 <div class="h-box" style="position: relative; z-index: 1; gap: 60px;">
@@ -14,6 +17,8 @@
       <input #fileInp type="file" hidden (change)="importZip($event)" />
 
       <button (click)="exportFolder()">Export</button>
+
+      <button (click)="remapTiles()">Remap Tiles</button>
     </div>
 
     <div style="height: 20px;"></div>
@@ -21,6 +26,7 @@
     <div>
       <div>Create new file:</div>
       <input #fileNameInp value="untitled"/>
+      <button (click)="addImage()">+Image</button>
       <button (click)="addTileset()">+Tileset</button>
       <button (click)="addParallax()">+Parallax</button>
     </div>

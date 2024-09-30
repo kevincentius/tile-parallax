@@ -36,7 +36,7 @@ export class ParallaxEditorComponent {
 
   changeLayerToTilemap(layer: ParallaxLayerData) {
     layer.gen = {
-      tileset: this.tilesetFiles[0].data,
+      tileset: this.tilesetFiles[0].path,
       groundGen: {
         amp: 10,
         wl: 10,

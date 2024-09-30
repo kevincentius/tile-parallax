@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ParallaxData, ParallaxLayerData } from '../parallax-data/parallax-data';
 import { CommonModule } from '@angular/common';
-import { ImgSrcProvider } from '../parallax-data/img-src-provider';
+import { ImgSrcProvider, TilesetProvider } from '../parallax-data/resource-provider';
 import { ParallaxLayerGenConfig } from '../parallax-data/parallax-layer-gen';
 import { drawTilemap } from '../parallax-data/tilemap-gen';
 
@@ -21,6 +21,7 @@ export interface ParallaxLayer {
 })
 export class ParallaxBackgroundComponent {
 
+  @Input() tilesetProvider!: TilesetProvider;
   @Input() imgSrcProvider!: ImgSrcProvider;
 
   layers: ParallaxLayer[] = [];
@@ -43,7 +44,9 @@ export class ParallaxBackgroundComponent {
 
   async generateLayerImage(gen: ParallaxLayerGenConfig): Promise<string> {
     const canvas = document.createElement('canvas');
-    await drawTilemap(gen.tileset, gen.groundGen, canvas, this.imgSrcProvider);
+    const tileset = this.tilesetProvider.getTileset(gen.tileset);
+    const imgSrc = this.imgSrcProvider.getSrc(tileset.spritesheet.path);
+    await drawTilemap(tileset, gen.groundGen, canvas, imgSrc);
     return canvas.toDataURL();
   }
 
