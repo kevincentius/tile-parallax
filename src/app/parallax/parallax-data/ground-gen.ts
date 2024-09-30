@@ -3,11 +3,13 @@ export interface GroundConfig {
   amp: number;
   wl: number; // wavelength
   width: number;
+  base: number;
 }
 export const defaultGroundConfig =  {
   amp: 5,
   wl: 5, // wavelength
   width: 100,
+  base: 0,
 };
 
 const M = 4294967296;
@@ -50,12 +52,12 @@ export function generatePerlin(cfg: GroundConfig) {
     x += 1;
   }
 
-  return vals.map(val => Math.round(val));
+  return vals.map(val => Math.round(val + cfg.base));
 }
 
 export function generateGround(cfg: GroundConfig = defaultGroundConfig) {
   const perlin = generatePerlin(cfg);
-  const ground = new Array(perlin.length).fill(0);
+  const ground: number[] = new Array(perlin.length).fill(0);
 
   ground[0] = perlin[0];
   let curPeakLength = 1;

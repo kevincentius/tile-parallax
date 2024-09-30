@@ -9,9 +9,10 @@ import { saveAs } from 'file-saver';
 import { ParallaxAnimatorComponent } from "../../parallax/parallax-animator/parallax-animator.component";
 import { ParallaxEditorComponent } from '../parallax-editor/parallax-editor.component';
 import { EditorImgSrcProvider } from '../editor-image-src-provider';
-import { ParallaxData } from '../../parallax/parallax-data/parallax-data';
+import { ParallaxData, ParallaxLayerData } from '../../parallax/parallax-data/parallax-data';
 import { TilesetRemapper } from '../tools/tileset-remapper';
 import { EditorTilesetProvider } from '../editor-tileset-provider';
+import { drawTilemap } from '../../parallax/parallax-data/tilemap-gen';
 
 @Component({
   selector: 'app-editor-layout',
@@ -228,5 +229,20 @@ export class EditorLayoutComponent {
 
   remapTiles() {
     new TilesetRemapper(this.state.imgFiles, this.state.tilesetFiles).remap();
+  }
+  
+  async downloadAsImage(layer: ParallaxLayerData) {
+    const canvas = document.createElement('canvas');
+
+    await drawTilemap(
+      this.tilesetProvider.getTileset(layer.gen!.tileset),
+      layer.gen!.groundGen,
+      canvas,
+      this.imgSrcProvider.getSrc(this.tilesetProvider.getTileset(layer.gen!.tileset).spritesheet.path),
+    );
+
+    canvas.toBlob(blob => {
+      saveAs(blob!, 'layer.png');
+    });
   }
 }

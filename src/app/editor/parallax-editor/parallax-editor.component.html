@@ -36,6 +36,7 @@
             {{file.path}}
           </option>
         </select>
+        <button (click)="onDownloadAsImageClick(layer)">Download as image</button>
       </div>
       <div>
         <label>Ground generation:</label>
@@ -44,6 +45,8 @@
         amp: <input [(ngModel)]="layer.gen.groundGen.amp" type="number" (ngModelChange)="onLayerChange()" />
         <span style="width: 50px;"></span>
         wl: <input [(ngModel)]="layer.gen.groundGen.wl" type="number" (ngModelChange)="onLayerChange()" />
+        <span style="width: 50px;"></span>
+        base: <input [(ngModel)]="layer.gen.groundGen.base" type="number" (ngModelChange)="onLayerChange()" />
       </div>
     </div>
     <div style="display: flex;">

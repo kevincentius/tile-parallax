@@ -1,10 +1,9 @@
 import { TilePosType, TilesetConfig } from "../../tile-picker/tileset-config";
 import { GroundConfig, generateGround } from "./ground-gen";
-import { ImgSrcProvider } from "./resource-provider";
 
 function generateTilePosTypeMap(groundCfg: GroundConfig): (TilePosType | null)[][] {
   const ground = generateGround(groundCfg);
-  const map = new Array(groundCfg.amp + 1).fill(0)
+  const map = new Array(Math.max(...ground) + 1).fill(0)
     .map((_, i) => new Array(ground.length).fill(0)
       .map((_, j) => {
         const groundLevel = ground[j];

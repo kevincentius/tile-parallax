@@ -3,6 +3,8 @@ import { ParallaxData, ParallaxLayerData } from '../../parallax/parallax-data/pa
 import { TpImageFile, TpTilesetFile } from '../editor-state';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { drawTilemap } from '../../parallax/parallax-data/tilemap-gen';
+import { defaultGroundConfig } from '../../parallax/parallax-data/ground-gen';
 
 @Component({
   selector: 'app-parallax-editor',
@@ -27,6 +29,9 @@ export class ParallaxEditorComponent {
 
   @Output()
   parallaxDataChange = new EventEmitter<ParallaxData>();
+
+  @Output()
+  downloadAsImage = new EventEmitter<ParallaxLayerData>();
   
   changeLayerToImage(layer: ParallaxLayerData) {
     layer.image = this.imageFiles[0].path;
@@ -37,11 +42,7 @@ export class ParallaxEditorComponent {
   changeLayerToTilemap(layer: ParallaxLayerData) {
     layer.gen = {
       tileset: this.tilesetFiles[0].path,
-      groundGen: {
-        amp: 10,
-        wl: 10,
-        width: 100,
-      },
+      groundGen: defaultGroundConfig,
     };
     layer.image = undefined;
     this.emitChange();
@@ -72,6 +73,10 @@ export class ParallaxEditorComponent {
       height: 100,
     });
     this.emitChange();
+  }
+
+  onDownloadAsImageClick(layer: ParallaxLayerData) {
+    this.downloadAsImage.emit(layer);
   }
 
   private emitChange() {
