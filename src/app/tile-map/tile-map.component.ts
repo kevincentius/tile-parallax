@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { generateTilemap } from '../parallax/parallax-data/tilemap-gen';
-import { TilesetConfig } from '../tile-picker/tileset-config';
+import { TilesetConfig } from '../parallax/parallax-data/tileset-config';
 import { GroundConfig } from '../parallax/parallax-data/ground-gen';
 
 @Component({

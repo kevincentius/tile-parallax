@@ -1,5 +1,5 @@
-import { TileConfig } from "../../tile-picker/tile-config";
-import { Pos } from "../../tile-picker/tileset-config";
+import { TileConfig } from "../../parallax/parallax-data/tile-config";
+import { Pos } from "../../parallax/parallax-data/tileset-config";
 import { TpImageFile, TpTilesetFile } from "../editor-state";
 
 export class TilesetRemapper {

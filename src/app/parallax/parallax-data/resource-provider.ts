@@ -1,4 +1,4 @@
-import { TilesetConfig } from "../../tile-picker/tileset-config";
+import { TilesetConfig } from "./tileset-config";
 
 export interface ImgSrcProvider {
   getSrc(relPath: string): string;

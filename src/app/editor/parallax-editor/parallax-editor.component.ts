@@ -42,7 +42,7 @@ export class ParallaxEditorComponent {
   changeLayerToTilemap(layer: ParallaxLayerData) {
     layer.gen = {
       tileset: this.tilesetFiles[0].path,
-      groundGen: defaultGroundConfig,
+      groundGen: JSON.parse(JSON.stringify(defaultGroundConfig)),
     };
     layer.image = undefined;
     this.emitChange();

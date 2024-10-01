@@ -1,5 +1,5 @@
 import { TilesetProvider } from "../parallax/parallax-data/resource-provider";
-import { TilesetConfig } from "../tile-picker/tileset-config";
+import { TilesetConfig } from "../parallax/parallax-data/tileset-config";
 import { TpTilesetFile } from "./editor-state";
 
 export class EditorTilesetProvider implements TilesetProvider {
