@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ParallaxData, ParallaxLayerData } from '../../parallax/parallax-data/parallax-data';
 import { TpImageFile, TpTilesetFile } from '../editor-state';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { drawTilemap } from '../../parallax/parallax-data/tilemap-gen';
-import { defaultGroundConfig } from '../../parallax/parallax-data/ground-gen';
+import { defaultGroundConfig, ParallaxData, ParallaxLayerData } from 'tilemap-parallax';
 
 @Component({
   selector: 'app-parallax-editor',

@@ -1,7 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { generateTilemap } from '../parallax/parallax-data/tilemap-gen';
-import { TilesetConfig } from '../parallax/parallax-data/tileset-config';
-import { GroundConfig } from '../parallax/parallax-data/ground-gen';
+import { generateTilemap, GroundConfig, TilesetConfig } from 'tilemap-parallax';
 
 @Component({
   selector: 'app-tile-map',

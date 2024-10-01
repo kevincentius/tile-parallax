@@ -1,4 +1,4 @@
-import { ImgSrcProvider } from "../parallax/parallax-data/resource-provider";
+import { ImgSrcProvider } from "tilemap-parallax";
 import { TpImageFile } from "./editor-state";
 
 export class EditorImgSrcProvider implements ImgSrcProvider {

@@ -1,5 +1,5 @@
-import { ParallaxData } from "../parallax/parallax-data/parallax-data";
-import { TilesetConfig } from "../parallax/parallax-data/tileset-config";
+import { ParallaxData, TilesetConfig } from "tilemap-parallax";
+
 
 export enum TpFileType {
   IMAGE = 'image',

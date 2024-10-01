@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Pos, TilePosType, TilesetConfig } from '../parallax/parallax-data/tileset-config';
-import { TileConfig } from '../parallax/parallax-data/tile-config';
+import { Pos, TileConfig, TilePosType, TilesetConfig } from 'tilemap-parallax';
 
 @Component({
   selector: 'app-tile-picker',

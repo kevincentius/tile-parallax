@@ -1,12 +1,10 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { TilePickerComponent } from "../../tile-picker/tile-picker.component";
 import { TileMapComponent } from "../../tile-map/tile-map.component";
-import { ParallaxLayerGenConfig } from '../../parallax/parallax-data/parallax-layer-gen';
-import { TilesetConfig } from '../../parallax/parallax-data/tileset-config';
-import { defaultGroundConfig } from '../../parallax/parallax-data/ground-gen';
 import { TpFileType, TpImageFile } from '../editor-state';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { defaultGroundConfig, TilesetConfig } from 'tilemap-parallax';
 
 @Component({
   selector: 'app-tile-set-editor',

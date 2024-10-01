@@ -6,13 +6,11 @@ import { TileMapComponent } from "../../tile-map/tile-map.component";
 import { CommonModule } from '@angular/common';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { ParallaxAnimatorComponent } from "../../parallax/parallax-animator/parallax-animator.component";
 import { ParallaxEditorComponent } from '../parallax-editor/parallax-editor.component';
 import { EditorImgSrcProvider } from '../editor-image-src-provider';
-import { ParallaxData, ParallaxLayerData } from '../../parallax/parallax-data/parallax-data';
 import { TilesetRemapper } from '../tools/tileset-remapper';
 import { EditorTilesetProvider } from '../editor-tileset-provider';
-import { drawTilemap } from '../../parallax/parallax-data/tilemap-gen';
+import { ParallaxAnimatorComponent, ParallaxData, ParallaxLayerData, drawTilemap } from 'tilemap-parallax';
 
 @Component({
   selector: 'app-editor-layout',
@@ -20,7 +18,6 @@ import { drawTilemap } from '../../parallax/parallax-data/tilemap-gen';
   imports: [
     CommonModule,
     FileListComponent,
-    TileSetEditorComponent,
     TileMapComponent,
     TileSetEditorComponent,
     ParallaxEditorComponent,
