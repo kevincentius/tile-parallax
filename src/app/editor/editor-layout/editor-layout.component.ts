@@ -21,7 +21,7 @@ import { EditorParallaxProvider } from '../editor-parallax-provider';
     TileSetEditorComponent,
     ParallaxEditorComponent,
     ParallaxAnimatorComponent,
-],
+  ],
   templateUrl: './editor-layout.component.html',
   styleUrl: './editor-layout.component.scss'
 })
