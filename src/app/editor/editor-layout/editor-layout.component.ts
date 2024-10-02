@@ -7,10 +7,9 @@ import { CommonModule } from '@angular/common';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { ParallaxEditorComponent } from '../parallax-editor/parallax-editor.component';
-import { EditorImgSrcProvider } from '../editor-image-src-provider';
 import { TilesetRemapper } from '../tools/tileset-remapper';
-import { EditorTilesetProvider } from '../editor-tileset-provider';
 import { ParallaxAnimatorComponent, ParallaxData, ParallaxLayerData, drawTilemap } from 'tilemap-parallax';
+import { EditorParallaxProvider } from '../editor-parallax-provider';
 
 @Component({
   selector: 'app-editor-layout',
@@ -40,8 +39,16 @@ export class EditorLayoutComponent {
     tilesetFiles: [],
   };
 
-  imgSrcProvider = new EditorImgSrcProvider(this.state.imgFiles);
-  tilesetProvider = new EditorTilesetProvider(this.state.tilesetFiles);
+  parallaxProvider!: EditorParallaxProvider;
+
+  constructor() {
+    this.initParallaxProvider();
+  }
+
+  async initParallaxProvider() {
+    this.parallaxProvider = new EditorParallaxProvider(this.state.imgFiles, this.state.tilesetFiles);
+    await this.parallaxProvider.init();
+  }
 
   onFileClick(file: TpFile) {
     this.state.selectedFile = file;
@@ -53,7 +60,7 @@ export class EditorLayoutComponent {
       };
       reader.readAsDataURL((file as TpImageFile).original!);
     } else if (file.type === TpFileType.PARALLAX) {
-      this.parallaxAnimator.setParallax((file as TpParallaxFile).data);
+      this.parallaxAnimator.setParallaxData((file as TpParallaxFile).data);
     }
   }
 
@@ -64,7 +71,7 @@ export class EditorLayoutComponent {
   }
 
   onParallaxDataChange(parallaxData: ParallaxData) {
-    this.parallaxAnimator.setParallax(parallaxData);
+    this.parallaxAnimator.setParallaxData(parallaxData);
   }
 
   async importZip(event: Event) {
@@ -104,9 +111,7 @@ export class EditorLayoutComponent {
     this.sortFiles();
     this.state.selectedFile = this.state.files[0];
     
-    this.tilesetProvider = new EditorTilesetProvider(this.state.tilesetFiles);
-    this.imgSrcProvider = new EditorImgSrcProvider(this.state.imgFiles);
-    await this.imgSrcProvider.init();
+    await this.initParallaxProvider();
   }
 
   async mapFile(file: File): Promise<TpFile | undefined> {
@@ -219,9 +224,7 @@ export class EditorLayoutComponent {
     this.state.imgFiles = this.state.files.filter(f => f.type === TpFileType.IMAGE) as TpImageFile[];
     this.state.tilesetFiles = this.state.files.filter(f => f.type === TpFileType.TILESET) as TpTilesetFile[];
     
-    this.tilesetProvider = new EditorTilesetProvider(this.state.tilesetFiles);
-    this.imgSrcProvider = new EditorImgSrcProvider(this.state.imgFiles);
-    await this.imgSrcProvider.init();
+    await this.initParallaxProvider();
   }
 
   remapTiles() {
@@ -229,13 +232,13 @@ export class EditorLayoutComponent {
   }
   
   async downloadAsImage(layer: ParallaxLayerData) {
+    const tileset = await this.parallaxProvider.getTileset(layer.gen!.tileset);
     const canvas = document.createElement('canvas');
-
     await drawTilemap(
-      this.tilesetProvider.getTileset(layer.gen!.tileset),
+      tileset,
       layer.gen!.groundGen,
       canvas,
-      this.imgSrcProvider.getSrc(this.tilesetProvider.getTileset(layer.gen!.tileset).spritesheet.path),
+      this.parallaxProvider.getSrc(tileset.spritesheet.path),
     );
 
     canvas.toBlob(blob => {
