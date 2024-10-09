@@ -29,6 +29,7 @@ export class TilePickerComponent {
   posTypeCols = [0, 1, 2];
 
   selectedTile?: Pos;
+  selectedTileConfig?: TileConfig;
 
   ngOnInit() {
     this.image.nativeElement.onload = () => this.onConfigChange();
@@ -38,7 +39,7 @@ export class TilePickerComponent {
   @HostListener('document:keydown', ['$event'])
   onKeydown(event: KeyboardEvent) {
     // 0-5 sets pos type
-    if (this.selectedTile && event.key >= '0' && event.key <= '5') {
+    if (this.selectedTile && event.key >= '0' && event.key <= '6') {
       const posType = +event.key;
       const tile = this.config.spritesheet.tiles[this.selectedTile.i][this.selectedTile.j];
       this.addPosType(tile, posType);
@@ -60,10 +61,14 @@ export class TilePickerComponent {
             posTypes: [],
           })));
     }
+
+    this.selectedTile = undefined;
+    this.selectedTileConfig = undefined;
   }
   
   onTileClick(i: number, j: number, event: MouseEvent) {
     this.selectedTile = { i, j };
+    this.selectedTileConfig = this.config.spritesheet.tiles[this.selectedTile.i][this.selectedTile.j];
   }
 
   getPosTypeCellId(row: number, col: number) {

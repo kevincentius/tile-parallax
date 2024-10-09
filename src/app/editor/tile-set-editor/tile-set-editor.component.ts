@@ -40,12 +40,23 @@ export class TileSetEditorComponent {
       this.onImageSelect(this.selectedImageFile);
     }
   }
+
+  ngOnChanges(changes?: any) {
+    if (changes.tilesetConfig) {
+      this.selectedImageFile = this.files.find(file => file.path == this.tilesetConfig.spritesheet.path);
+      this.updateImage();
+    }
+  }
   
   onImageSelect(file: TpImageFile) {
     this.selectedImageFile = file;
     this.tilesetConfig.spritesheet.path = file.path;
     
-    const original = file.original!;
+    this.updateImage();
+  }
+
+  private updateImage() {
+    const original = this.selectedImageFile!.original!;
     const reader = new FileReader();
     reader.onload = (e) => {
       const imgSrc = e.target!.result as string;

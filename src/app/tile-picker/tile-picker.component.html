@@ -21,12 +21,36 @@
     </div>
   </div>
 
+  <div class="inp-row">
+    <div class="inp-label">Decor density</div>
+    <div class="inp-value">
+      <input type="number" [(ngModel)]="config.spritesheet.decorDensity" (change)="onConfigChange()" min="0" max="1" step="0.02">
+    </div>
+  </div>
+
+  <div class="tile-pos-type-picker-row">
+    <div class="tile-pos-type-picker-cell"></div>
+    <div class="tile-pos-type-picker-cell"
+      (click)="onPosTypeCellClick(2, 0)"
+      [class.selected]="getSelectedTile()?.includes(getPosTypeCellId(2, 0))"
+    >6</div>
+    <div class="tile-pos-type-picker-cell"></div>
+  </div>
+
   <div class="tile-pos-type-picker-row" *ngFor="let row of posTypeRows">
     <div *ngFor="let col of posTypeCols"
       class="tile-pos-type-picker-cell"
       [class.selected]="getSelectedTile()?.includes(getPosTypeCellId(row, col))"
       (click)="onPosTypeCellClick(row, col)"
     >{{getPosTypeCellId(row, col)}}</div>
+  </div>
+</div>
+
+<div class="inp-row" *ngIf="selectedTileConfig">
+  <div class="inp-label">Tile weight (default=100)</div>
+  <div class="inp-value">
+    <input type="number" [(ngModel)]="selectedTileConfig!.weight" min="0" step="20">
+    <button (click)="selectedTileConfig!.weight = undefined">X</button>
   </div>
 </div>
 

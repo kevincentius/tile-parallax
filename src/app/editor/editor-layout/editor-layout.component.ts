@@ -201,6 +201,7 @@ export class EditorLayoutComponent {
           tileWidth: 16,
           tileHeight: 16,
           tiles: [],
+          decorDensity: 0.25,
         },
       },
     });
