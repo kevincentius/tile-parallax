@@ -1,7 +1,12 @@
-## Temporaries
-- Sample:
-  - C:\Projects\VSC\tilemap-gen\src\app\parallax\parallax-data\sample
+# Usage
 
+Latest version is deployed on Netlify: https://tile-parallax.netlify.app
+
+This is a tool I used for making parallaxes for my Angular game. It will export a ZIP file containing the images and some JSON containing the tileset and layer configurations. This file can be fed to a [component library](https://www.npmjs.com/package/tilemap-parallax) that renders the parallaxes (this tool itself uses the library as well).
+
+Renaming files is not supported. Name your image files before loading them into the tool. Otherwise you will need to rename the files in the exported ZIP file.
+
+This is a barebones Angular project, so in case you want to run it locally, you will need Node.js, checkout the project and execute `npm install` and `npm start`.
 
 ## Folder structure of a valid parallax collection
 
@@ -11,9 +16,3 @@
   - [tileset json files]
 - /parallax
   - [parallax json files]
-
-
-## Usage in heromino
-- /image/* should be copied to /src/assets/img/bg/parallax/*
-- /tileset/* JSONs should be copied individually into export consts (TODO: where in code? Automate with script?)
-- /parallax/* JSONs should be copied individually into epxort consts (TODO: where in code? Automate with script?)
